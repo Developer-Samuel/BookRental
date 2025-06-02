@@ -14,13 +14,13 @@ final class BookDTO implements DataTransferObjectInterface
      * @param int $authorId
      * @param string $title
      * @param BookType $type
-     * @param bool $isBorrowed
+     * @param bool $is_borrowed
     */
     public function __construct(
         public readonly int $authorId,
         public readonly string $title,
         public readonly BookType $type,
-        public readonly bool $isBorrowed
+        public readonly bool $is_borrowed
     ) {}
 
     /**
@@ -33,7 +33,7 @@ final class BookDTO implements DataTransferObjectInterface
             authorId: (int) $data['author_id'],
             title: $data['title'],
             type: BookType::from($data['type']),
-            isBorrowed: (bool) $data['is_borrowed']
+            is_borrowed: (bool) $data['is_borrowed']
         );
     }
 
@@ -46,7 +46,7 @@ final class BookDTO implements DataTransferObjectInterface
             'author_id'   => (int) $this->authorId,
             'title'       => $this->title,
             'type'        => $this->type,
-            'is_borrowed' => (bool) $this->isBorrowed
+            'is_borrowed' => (bool) $this->is_borrowed
         ];
     }
 }

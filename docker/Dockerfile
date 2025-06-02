@@ -30,10 +30,10 @@ COPY scripts/bootstrap/optimize.sh /usr/local/bin/scripts/bootstrap/optimize.sh
 COPY scripts/bootstrap/node-setup.sh /usr/local/bin/scripts/bootstrap/node-setup.sh
 
 # Copy entrypoint scripts related to app lifecycle tasks (migrations, build, tests, cache)
+COPY scripts/entrypoints/tools/code-quality.sh /usr/local/bin/scripts/entrypoints/tools/code-quality.sh
 COPY scripts/entrypoints/app/migrate.sh /usr/local/bin/scripts/entrypoints/app/migrate.sh
 COPY scripts/entrypoints/app/build.sh /usr/local/bin/scripts/entrypoints/app/build.sh
 COPY scripts/entrypoints/app/clear-cache.sh /usr/local/bin/scripts/entrypoints/app/clear-cache.sh
-COPY scripts/entrypoints/tools/code-quality.sh /usr/local/bin/scripts/entrypoints/tools/code-quality.sh
 
 # Copy general entrypoint and server start scripts
 COPY scripts/entrypoints/setup.sh /usr/local/bin/scripts/entrypoints/setup.sh

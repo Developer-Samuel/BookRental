@@ -14,6 +14,10 @@ echo "🧹 Clearing Redis cache..."
 /usr/local/bin/scripts/entrypoints/app/clear-cache.sh
 echo "✅ Redis cache cleared."
 
+echo "🧹 Running code style, static analysis, and test suite..."
+/usr/local/bin/scripts/entrypoints/tools/code-quality.sh
+echo "✅ Code quality checks finished."
+
 echo "🗃️ Running fresh migrations and seeding database..."
 /usr/local/bin/scripts/entrypoints/app/migrate.sh
 echo "✅ Migrations and seeding finished."
@@ -23,7 +27,3 @@ echo "🔍 Checking node dependencies..."
 
 echo "🔍 Checking frontend build (npm run build)..."
 /usr/local/bin/scripts/entrypoints/app/build.sh
-
-echo "🧹 Running code style, static analysis, and test suite..."
-/usr/local/bin/scripts/entrypoints/tools/code-quality.sh
-echo "✅ Code quality checks finished."

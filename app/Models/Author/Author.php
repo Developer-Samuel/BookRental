@@ -16,7 +16,7 @@ use App\Models\Book\Book;
  * @property int $country_id
  * @property string $name
  * @property string $surname
- * @property string|null $birthDate
+ * @property string|null $birth_date
  * @property string $gender
  * @property Country|null $country
  * @property Book[]|null $books

@@ -79,7 +79,7 @@ class AuthorController extends BaseController
 
         $authors = $authors->map(function (Model $author, int|string $key): Author {
             /** @var Author $author */
-            $author->birthDate = DateFormatter::format($author->birthDate);
+            $author->birth_date = DateFormatter::format($author->birth_date);
             return $author;
         });
 
