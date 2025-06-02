@@ -72,7 +72,7 @@ class BookController extends BaseController
 
         $authorId = intval($authorId);
 
-       $orderByValue = request()->query('orderBy', BookOrderBy::TITLE->value);
+        $orderByValue = request()->query('orderBy', BookOrderBy::TITLE->value);
         $directionValue = strtolower(request()->query('direction', Direction::ASC->value));
 
         $orderBy = BookOrderBy::tryFrom($orderByValue) ?? BookOrderBy::TITLE;
