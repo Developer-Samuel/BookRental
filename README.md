@@ -98,6 +98,10 @@ If you encounter permission problems or cannot find Laravel logs, execute the fo
    - To automatically fix PHP coding style issues, run:
      - `composer fix`
 
+## 🙍 Test User
+   - **Email:** `admin@example.com`
+   - **Password:** `12345678`
+
 ## ✅ Features
 
 ### 🔐 Secure Login
