@@ -1,0 +1,99 @@
+name: BookRental
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: book_rental_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-start-period=10s
+
+    strategy:
+      matrix:
+        php-version: [8.2, 8.3]
+
+    steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+
+    - uses: actions/checkout@v4
+
+    # 📦 Install Composer dependencies
+    - name: 📦 Install Composer Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    # 📋 Copy the .env file if it doesn't exist
+    - name: 📋Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example.local', '.env');"
+
+    # 🔑 Generate the app key for Laravel
+    - name: 🔑 Generate key
+      run: php artisan key:generate
+
+    # 🗂️ Set permissions for necessary directories
+    - name: 🗂️ Directory Permissions
+      run: chmod -R 775 storage bootstrap/cache
+
+    # ⏳ Wait for MySQL service to be ready
+    - name: ⏳ Wait for MySQL to be ready
+      run: |
+        until mysqladmin -h 127.0.0.1 ping; do
+          echo "Waiting for mysql..."
+          sleep 2
+        done
+
+    # 🗄️ Create the database
+    - name: 🗄️ Create Database
+      run: |
+        mysql -u root -psecret -h 127.0.0.1 -e "CREATE DATABASE IF NOT EXISTS book_rental_test;"
+
+    # 🚜 Run migrations and seed the database
+    - name: 🚜 Run Migrations
+      run: php artisan migrate --seed --env=test
+
+    # 📦 Install NPM dependencies
+    - name: 📦 Install NPM Dependencies
+      run: |
+        npm install
+
+    # 🏗️ Run the production build for Vue.js
+    - name: 🏗️ Run Production Build
+      run: |
+        npm run build
+
+    # 🎨 Format PHP files using PHP CS Fixer
+    - name: 🎨 Run PHP CS Fixer (code formatting)
+      run: |
+        echo "🎯 Running PHP CS Fixer..."
+        composer fix
+        echo "✅ Code formatting completed."
+
+    # 🔍 Run static analysis (composer analyse)
+    - name: 🔍 Run Static Analysis
+      run: composer analyse
+
+    # 🧪 Execute tests (Unit and Feature tests) via PHPUnit
+    - name: 🧪 Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: book_rental_test
+        DB_USERNAME: root
+        DB_PASSWORD: secret
+      run: |
+        php artisan test
