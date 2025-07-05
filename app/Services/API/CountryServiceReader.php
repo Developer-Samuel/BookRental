@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\API;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -30,9 +31,9 @@ final class CountryServiceReader implements CountryServiceReaderContract
     /**
      * Make the API request to fetch countries.
      *
-     * @return \Illuminate\Http\Client\Response
+     * @return Response
     */
-    private function getApiResponse(): \Illuminate\Http\Client\Response
+    private function getApiResponse(): Response
     {
         $url = config('api.country_url');
         return Http::get($url);
@@ -41,10 +42,10 @@ final class CountryServiceReader implements CountryServiceReaderContract
     /**
      * Validate the API response.
      *
-     * @param \Illuminate\Http\Client\Response $response
+     * @param Response $response
      * @return bool
     */
-    private function validateResponse(\Illuminate\Http\Client\Response $response): bool
+    private function validateResponse(Response $response): bool
     {
         if ($response->successful()) {
             return true;
